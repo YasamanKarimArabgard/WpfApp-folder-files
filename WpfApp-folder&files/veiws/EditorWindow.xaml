@@ -1,0 +1,20 @@
+﻿<Window x:Class="WpfApp_folder_files.veiws.EditorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp_folder_files.veiws"
+        mc:Ignorable="d"
+        Title="EditorWindow" Height="450" Width="800" WindowStartupLocation="CenterScreen" Name="EditorWindowText" Loaded="Window_Loaded">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="0" AcceptsReturn="True" Name="EditorTextBox"></TextBox>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" CanVerticallyScroll="True">
+            <Button Width="100" Height="30" Margin="5" Name="EditSaveBtn" Click="EditSaveBtn_Click">Save</Button>
+            <Button Width="100" Height="30" Margin="5" Name="EditorCancelBtn" Click="EditorCancelBtn_Click">Cancel</Button>
+        </StackPanel>
+    </Grid>
+</Window>
