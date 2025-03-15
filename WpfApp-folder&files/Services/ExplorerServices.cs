@@ -18,7 +18,8 @@ public class ExplorerServices
     {
         return Directory.GetDirectories(path).Select(c => new Models.ExplorerFolderItems()
         {
-            Name = Path.GetFileName(c)
+            Name = Path.GetFileName(c),
+            Info = new DirectoryInfo(c)
         }).ToList();
     }
 
@@ -26,7 +27,8 @@ public class ExplorerServices
     {
         return Directory.GetFiles(path).Select(c => new Models.ExplorerFileItem()
         {
-            Name = Path.GetFileName(c)
+            Name = Path.GetFileName(c),
+            Info = new FileInfo(c)
         }).ToList();
     }
 };

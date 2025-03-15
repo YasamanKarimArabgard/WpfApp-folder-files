@@ -231,14 +231,39 @@ namespace WpfApp_folder_files
                     Directory.Move(PathToCut, newPath);
                 }else
                 {
-                    File.Move(PathToCut, newPath)
+                    File.Move(PathToCut, newPath);
                 }
             }else if (!string.IsNullOrEmpty(PathToCopy))
             {
-
+                if (PathToCopyOrPasteIsFolder)
+                {
+                   
+                }
+                else
+                { 
+                  
+                }
             }
 
             loadCurrentPath();
+        }
+
+        private void CopyMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(PathToCopy))
+            {
+                var newPath = Path.Combine(currentPath, Path.GetFileName(PathToCut));
+
+                if (PathToCopyOrPasteIsFolder)
+                {
+
+
+                }
+                else
+                {
+                    File.Copy(PathToCopy, newPath);
+                }
+            }
         }
     }
 }
