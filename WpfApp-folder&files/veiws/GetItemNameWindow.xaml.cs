@@ -6,10 +6,10 @@ namespace WpfApp_folder_files.veiws
     /// <summary>
     /// Interaction logic for GetItemName.xaml
     /// </summary>
-    public partial class GetItemName : Window
+    public partial class GetItemNameWindow : Window
     {
-        public string? currentItemName = null;
-        public GetItemName()
+        public string? CurrentName { get; set; } = null;
+        public GetItemNameWindow()
         {
             InitializeComponent();
         }
@@ -30,9 +30,12 @@ namespace WpfApp_folder_files.veiws
             this.DialogResult = false;
         }
 
-        private void GetItemName_Loaded(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //NameTextBox.Text = currentItemName.nam000000
+            if (!string.IsNullOrEmpty(CurrentName))
+            {
+                NameTextBox.Text = CurrentName;
+            }
         }
     }
 }

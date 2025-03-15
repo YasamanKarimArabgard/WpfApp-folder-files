@@ -14,10 +14,11 @@
         <ListView Grid.Row="0" Margin="5" Name="ItemsListVeiw" MouseDoubleClick="ItemsListVeiw_MouseDoubleClick">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="Delete"></MenuItem>
+                    <MenuItem Header="Delete" Click="DeleteMenuItem_Click"></MenuItem>
                     <MenuItem Header="Copy"></MenuItem>
+                    <MenuItem Header="Paste" Click="PasteMenuItem_Click"></MenuItem>
                     <MenuItem Header="Rename" Name="RenameMenuItem" Click="RenameMenuItem_Click"></MenuItem>
-                    <MenuItem Header="Cut"></MenuItem>
+                    <MenuItem Header="Cut" Click="CutMenuItem_Click"></MenuItem>
                 </ContextMenu>
             </ListView.ContextMenu>
             <ListView.ItemTemplate>

@@ -2,7 +2,7 @@
 using System.Windows;
 using WpfApp_folder_files.Models;
 using System.IO;
-using System.Reflection.Metadata;
+using System.Windows.Data;
 
 namespace WpfApp_folder_files
 {
@@ -11,6 +11,11 @@ namespace WpfApp_folder_files
         private ObservableCollection<ExplorerItemsbase> items = new ObservableCollection<ExplorerItemsbase>();
         public string? currentPath { get; set; } = null;
         public string? currentName = null;
+
+        public string PathToCopy { get; set; }
+        public string PathToCut { get; set; }
+
+        public bool PathToCopyOrPasteIsFolder { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -96,7 +101,7 @@ namespace WpfApp_folder_files
                 return;
             }
 
-            var getNameWindowName = new veiws.GetItemName();
+            var getNameWindowName = new veiws.GetItemNameWindow();
             getNameWindowName.ShowDialog();
 
 
@@ -124,7 +129,7 @@ namespace WpfApp_folder_files
                 return;
             }
 
-            var getNameWindowName = new veiws.GetItemName();
+            var getNameWindowName = new veiws.GetItemNameWindow();
             getNameWindowName.ShowDialog();
 
 
@@ -151,9 +156,10 @@ namespace WpfApp_folder_files
 
             if (selectedItem == null)
                 return;
-            var getNameWindow = new veiws.GetItemName();
+
+            var getNameWindow = new veiws.GetItemNameWindow()
             {
-                currentName = selectedItem.Name;
+                CurrentName = selectedItem.Name
             };
 
             getNameWindow.ShowDialog();
@@ -163,16 +169,76 @@ namespace WpfApp_folder_files
                 var oldPath = Path.Combine(currentPath, selectedItem.Name);
                 var newPath = Path.Combine(currentPath, getNameWindow.NameTextBox.Text);
 
-                if (selectedItem is Models.ExplorerFileItem)
+                if (selectedItem is ExplorerFileItem)
                 {
-                    File.Move(newPath, oldPath);
+                    File.Move(oldPath, newPath);
                 }else if(selectedItem is ExplorerFolderItems)
                 {
-                    Directory.Move(newPath, newPath);
+                    Directory.Move(oldPath, newPath);
                 }
 
                 loadCurrentPath();
             }
+        }
+
+        private void DeleteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = ItemsListVeiw.SelectedItem as ExplorerItemsbase;
+
+            var result = MessageBox.Show("Are sure to delete?", "Delete file", MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+
+            if(result == MessageBoxResult.Yes)
+            {
+                var path = Path.Combine(currentPath, selectedItem.Name);
+
+                if (selectedItem is ExplorerFolderItems) {
+                    Directory.Delete(path, true);
+                }
+                if(selectedItem is ExplorerFileItem) {
+                     File.Delete(path);
+                }
+            }
+            loadCurrentPath();
+        }
+
+        private void CutMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = ItemsListVeiw.SelectedItem as ExplorerItemsbase;
+
+            if (selectedItem == null)
+                return;
+
+            var path = Path.Combine(currentPath, selectedItem.Name);
+
+            PathToCut = path;
+
+            if(selectedItem is ExplorerFolderItems)
+            {
+                PathToCopyOrPasteIsFolder = true;
+            }
+
+        }
+
+        private void PasteMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(PathToCut))
+            {
+                var newPath = Path.Combine(currentPath, Path.GetFileName(PathToCut));
+
+                if (PathToCopyOrPasteIsFolder)
+                {
+                    Directory.Move(PathToCut, newPath);
+                }else
+                {
+                    File.Move(PathToCut, newPath)
+                }
+            }else if (!string.IsNullOrEmpty(PathToCopy))
+            {
+
+            }
+
+            loadCurrentPath();
         }
     }
 }
